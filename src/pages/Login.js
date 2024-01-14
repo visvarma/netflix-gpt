@@ -1,14 +1,66 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { BG_URL } from "../utils/constants";
 import Header from "../components/Header/Header";
 import { MovieCard } from "../components/MovieCard/MovieCard";
+import { checkValidData } from "../utils/validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const email = useRef("");
+  const password = useRef("");
 
   const toggleSiginForm = () => {
     setIsSignIn(!isSignIn);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    //validate from
+    const message = checkValidData(email.current.value, password.current.value);
+    setErrorMessage(message);
+    if (message) return;
+
+    if (!isSignIn) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorMessage + "-" + errorCode);
+          // ..
+        });
+    } else {
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(userCredential);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+    }
   };
 
   return (
@@ -30,7 +82,7 @@ const Login = () => {
         {!isSignIn && (
           <input
             type="text"
-            name="email"
+            name="fullname"
             className="p-4 my-4 bg-gray-700"
             placeholder="FullName"
           />
@@ -40,14 +92,21 @@ const Login = () => {
           name="email"
           className="p-4 my-4 bg-gray-700"
           placeholder="Email"
+          ref={email}
         />
         <input
           type="password"
           name="password"
           className="p-4 my-4 bg-gray-700"
           placeholder="Password"
+          ref={password}
         />
-        <button type="submit" className="p-4 my-8 bg-red-700 rounded-lg ">
+        <p className="text-red-700 text-md font-bold">{errorMessage}</p>
+        <button
+          type="submit"
+          className="p-4 my-8 bg-red-700 rounded-lg "
+          onClick={handleFormSubmit}
+        >
           {isSignIn ? "Sign In" : "Sign Up"}
         </button>
 
