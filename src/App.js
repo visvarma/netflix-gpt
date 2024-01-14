@@ -1,11 +1,8 @@
 import "./App.css";
+import { Body } from "./pages/Body";
 
 function App() {
-  return (
-    <div className="text-3xl font-semibold text-red-400">
-      Lets build <span className="font-bold">Netflix-GPT</span>
-    </div>
-  );
+  return <Body />;
 }
 
 export default App;
