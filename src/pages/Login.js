@@ -1,20 +1,27 @@
 import React, { useRef, useState } from "react";
 
-import { BG_URL } from "../utils/constants";
+import { BG_URL, USER_AVATAR } from "../utils/constants";
 import Header from "../components/Header/Header";
 import { MovieCard } from "../components/MovieCard/MovieCard";
 import { checkValidData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/slices/userSlice";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isSignIn, setIsSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const email = useRef("");
   const password = useRef("");
+  const name = useRef("");
 
   const toggleSiginForm = () => {
     setIsSignIn(!isSignIn);
@@ -36,7 +43,26 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          // ...
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: USER_AVATAR,
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+            });
+
+          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -55,6 +81,7 @@ const Login = () => {
           const user = userCredential.user;
           console.log(userCredential);
           // ...
+          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -85,6 +112,7 @@ const Login = () => {
             name="fullname"
             className="p-4 my-4 bg-gray-700"
             placeholder="FullName"
+            ref={name}
           />
         )}
         <input
