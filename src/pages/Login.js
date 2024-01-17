@@ -10,12 +10,10 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../store/slices/userSlice";
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignIn, setIsSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -61,8 +59,6 @@ const Login = () => {
             .catch((error) => {
               setErrorMessage(error.message);
             });
-
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -81,11 +77,12 @@ const Login = () => {
           const user = userCredential.user;
           console.log(userCredential);
           // ...
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+
+          setErrorMessage(errorMessage + "-" + errorCode);
         });
     }
   };

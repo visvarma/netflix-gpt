@@ -14,3 +14,12 @@ export const SUPPORTED_LANGUAGES = [
   { identifier: "hindi", name: "Hindi" },
   { identifier: "spanish", name: "Spanish" },
 ];
+
+export const API_OPTIONS = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMWZiNzU4NTY1MzZjYmNhYjM4NWMyNmY1ZDU4YzgwZSIsInN1YiI6IjY1YTgwMzIyMzg3NjUxMDEzMDFhNzEzNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.w3pfX1lbDX4p2e3L31LxcrGqA_dGFTot_uuwh0ado1E",
+  },
+};
