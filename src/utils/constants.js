@@ -23,3 +23,6 @@ export const API_OPTIONS = {
       "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMWZiNzU4NTY1MzZjYmNhYjM4NWMyNmY1ZDU4YzgwZSIsInN1YiI6IjY1YTgwMzIyMzg3NjUxMDEzMDFhNzEzNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.w3pfX1lbDX4p2e3L31LxcrGqA_dGFTot_uuwh0ado1E",
   },
 };
+
+export const OPENAPI_KEY =
+  "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";
