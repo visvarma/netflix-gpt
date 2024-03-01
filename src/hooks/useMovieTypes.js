@@ -8,8 +8,8 @@ import {
 
 const useMovieTypes = () => {
   const dispatch = useDispatch();
-  // const popularMovies = useSelector((store) => store.movie.popularMovies);
-  // const nowPlayingMovies = useSelector((store) => store.movie.nowPlayingMovies);
+  const popularMovies = useSelector((store) => store.movie.popularMovies);
+  const nowPlayingMovies = useSelector((store) => store.movie.nowPlayingMovies);
 
   const getNowPlayingMovie = async () => {
     const response = await fetch(
@@ -31,8 +31,11 @@ const useMovieTypes = () => {
   };
 
   useEffect(() => {
-    getNowPlayingMovie();
-    getPopularMovies();
+    !nowPlayingMovies && getNowPlayingMovie();
+  }, []);
+
+  useEffect(() => {
+    !popularMovies && getPopularMovies();
   }, []);
 };
 
