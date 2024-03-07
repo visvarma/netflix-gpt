@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect, useState } from "react";
 import { LOGO, SUPPORTED_LANGUAGES } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -13,6 +14,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+  const [openMenu, setOpenMenu] = useState(false);
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {})
@@ -53,102 +55,127 @@ const Header = () => {
   };
 
   return (
-    // <div className="absolute w-full px-8 py-2 bg-gradient-to-b from-black z-50 flex flex-col md:flex-row justify-between">
-    //   <img className="w-44 mx-auto md:mx-0" src={LOGO} alt="logo" />
+    <div className="absolute w-full px-8 py-2 bg-gradient-to-b from-black z-50 flex  justify-between items-center">
+      <img className="w-44 mx-auto md:mx-0" src={LOGO} alt="logo" />
 
-    //   {user && (
-    //     <div className="flex p-2 justify-between">
-    //       {showGptSearch && (
-    //         <select
-    //           className="p-2 m-2 bg-gray-900 text-white"
-    //           onChange={handleLanguageChange}
-    //         >
-    //           {SUPPORTED_LANGUAGES.map((lang) => (
-    //             <option key={lang.identifier} value={lang.identifier}>
-    //               {lang.name}
-    //             </option>
-    //           ))}
-    //         </select>
-    //       )}
-    //       <button
-    //         className="py-2 px-4 mx-4 my-2 bg-purple-800 text-white rounded-lg"
-    //         onClick={handleGptSearchClick}
-    //       >
-    //         {showGptSearch ? "Homepage" : "GPT Search"}
-    //       </button>
-    //       <img
-    //         className="hidden md:block w-12 h-12"
-    //         alt="usericon"
-    //         src={user?.photoURL}
-    //       />
-    //       <button onClick={handleSignOut} className="font-bold text-white ">
-    //         (Sign Out)
-    //       </button>
-    //     </div>
-    //   )}
-    // </div>
-
-    <nav class="w-full  bg-gradient-to-b from-black z-50">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <img className="w-44 mx-auto md:mx-0" src={LOGO} alt="logo" />
-        <button
-          data-collapse-toggle="navbar-default"
-          type="button"
-          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          aria-controls="navbar-default"
-          aria-expanded="false"
-        >
-          <span class="sr-only">Open main menu</span>
-          <svg
-            class="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M1 1h15M1 7h15M1 13h15"
+      <div className="hidden md:block">
+        {user && (
+          <div className="flex p-2 justify-between gap-4 items-center">
+            {showGptSearch && (
+              <select
+                className="p-2  bg-gray-900 text-white"
+                onChange={handleLanguageChange}
+              >
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <option key={lang.identifier} value={lang.identifier}>
+                    {lang.name}
+                  </option>
+                ))}
+              </select>
+            )}
+            <button
+              className="py-2 px-4  my-2 bg-red-600 text-white rounded-lg"
+              onClick={handleGptSearchClick}
+            >
+              {showGptSearch ? "Homepage" : "GPT Search"}
+            </button>
+            <img
+              className="hidden md:block w-12 h-12"
+              alt="usericon"
+              src={user?.photoURL}
             />
+            <button onClick={handleSignOut} className="font-bold text-white ">
+              (Sign Out)
+            </button>
+          </div>
+        )}
+      </div>
+      <div className="md:hidden">
+        {showGptSearch && (
+          <select
+            className="p-2 m-2 bg-gray-900 text-white"
+            onChange={handleLanguageChange}
+          >
+            {SUPPORTED_LANGUAGES.map((lang) => (
+              <option key={lang.identifier} value={lang.identifier}>
+                {lang.name}
+              </option>
+            ))}
+          </select>
+        )}
+        <button
+          class="navbar-burger md:hidden flex items-center text-gray-500 p-3"
+          onClick={() => setOpenMenu(!openMenu)}
+        >
+          <svg
+            class="block h-8 w-8 fill-current"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>Mobile menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
           </svg>
         </button>
-        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a
-                class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                aria-current="page"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                About
-              </a>
-            </li>
-            <li>
-              <a class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                Services
-              </a>
-            </li>
-            <li>
-              <a class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                Pricing
-              </a>
-            </li>
-            <li>
-              <a class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                Contact
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
-    </nav>
+      {openMenu && (
+        <div class="md:hidden navbar-menu relative z-50">
+          <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+          <nav class="fixed top-0 right-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+            <div class="flex items-center mb-8 justify-between">
+              <img className="w-12 h-12" alt="usericon" src={user?.photoURL} />
+              <button class="navbar-close" onClick={() => setOpenMenu(false)}>
+                <svg
+                  class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div>
+              <ul>
+                <li class="mb-1" onClick={handleGptSearchClick}>
+                  {showGptSearch ? "Homepage" : "GPT Search"}
+                </li>
+                <li class="mb-1">
+                  <button onClick={handleSignOut} className="font-bold ">
+                    Sign Out
+                  </button>
+                </li>
+                <li class="mb-1"></li>
+              </ul>
+            </div>
+            <div class="mt-auto">
+              <div class="pt-6">
+                <a
+                  class="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl"
+                  href="#"
+                >
+                  Sign in
+                </a>
+                <a
+                  class="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl"
+                  href="#"
+                >
+                  Sign Up
+                </a>
+              </div>
+              <p class="my-4 text-xs text-center text-gray-400">
+                <span>Copyright © 2021</span>
+              </p>
+            </div>
+          </nav>
+        </div>
+      )}
+    </div>
   );
 };
 
