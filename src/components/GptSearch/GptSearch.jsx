@@ -12,7 +12,7 @@ const GPTSearch = () => {
           alt="logo"
         />
       </div>
-      <div className="">
+      <div className="flex flex-col max-h-screen ">
         <GptSearchBar />
         <GptMovieSuggestions />
       </div>

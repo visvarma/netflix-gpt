@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  RouterProvider,
-  createBrowserRouter,
-  useNavigate,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Login from "./Login";
 import Browse from "./Browse";
 import { onAuthStateChanged } from "firebase/auth";
@@ -20,7 +16,7 @@ export const Body = () => {
 
   return (
     <div>
-      <RouterProvider router={appRouter} />;
+      <RouterProvider router={appRouter} />
     </div>
   );
 };

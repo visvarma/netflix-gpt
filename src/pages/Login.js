@@ -98,7 +98,7 @@ const Login = () => {
         />
       </div>
 
-      <form className="w-full md:w-1/4 px-12 py-8 bg-black absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-white rounded-lg bg-opacity-80 flex flex-col ">
+      <form className="w-3/4 sm:w-6/12 md:w-1/3 lg:w-1/4 px-12 py-8 bg-black absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-white rounded-lg bg-opacity-80 flex flex-col ">
         <h1 className="font-bold text-xl text-white px-2 py-4">
           {isSignIn ? "Sign In" : "Sign Up"}
         </h1>

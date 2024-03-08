@@ -55,7 +55,7 @@ const Header = () => {
   };
 
   return (
-    <div className="absolute w-full px-8 py-2 bg-gradient-to-b from-black z-50 flex  justify-between items-center">
+    <div className="absolute w-full px-1 md:px-8 py-2 bg-gradient-to-b from-black z-50 flex  justify-between items-center">
       <img className="w-44 mx-auto md:mx-0" src={LOGO} alt="logo" />
 
       <div className="hidden md:block">
@@ -90,37 +90,40 @@ const Header = () => {
           </div>
         )}
       </div>
-      <div className="md:hidden">
-        {showGptSearch && (
-          <select
-            className="p-2 m-2 bg-gray-900 text-white"
-            onChange={handleLanguageChange}
+      {user && (
+        <div className="md:hidden flex justify-end items-center">
+          {showGptSearch && (
+            <select
+              className="p-2 m-2 bg-gray-900 text-white"
+              onChange={handleLanguageChange}
+            >
+              {SUPPORTED_LANGUAGES.map((lang) => (
+                <option key={lang.identifier} value={lang.identifier}>
+                  {lang.name}
+                </option>
+              ))}
+            </select>
+          )}
+          <button
+            class="navbar-burger md:hidden flex items-center text-gray-500 p-3"
+            onClick={() => setOpenMenu(!openMenu)}
           >
-            {SUPPORTED_LANGUAGES.map((lang) => (
-              <option key={lang.identifier} value={lang.identifier}>
-                {lang.name}
-              </option>
-            ))}
-          </select>
-        )}
-        <button
-          class="navbar-burger md:hidden flex items-center text-gray-500 p-3"
-          onClick={() => setOpenMenu(!openMenu)}
-        >
-          <svg
-            class="block h-8 w-8 fill-current"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Mobile menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-          </svg>
-        </button>
-      </div>
+            <svg
+              class="block h-6 w-6 fill-current"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>Mobile menu</title>
+              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+            </svg>
+          </button>
+        </div>
+      )}
+
       {openMenu && (
-        <div class="md:hidden navbar-menu relative z-50">
+        <div class="md:hidden navbar-menu relative z-50 bg-black opacity-95">
           <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
-          <nav class="fixed top-0 right-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+          <nav class="fixed top-0 right-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-black border-r overflow-y-auto">
             <div class="flex items-center mb-8 justify-between">
               <img className="w-12 h-12" alt="usericon" src={user?.photoURL} />
               <button class="navbar-close" onClick={() => setOpenMenu(false)}>
@@ -142,10 +145,13 @@ const Header = () => {
             </div>
             <div>
               <ul>
-                <li class="mb-1" onClick={handleGptSearchClick}>
+                <li
+                  class="mb-6 text-xl text-white cursor-pointer"
+                  onClick={handleGptSearchClick}
+                >
                   {showGptSearch ? "Homepage" : "GPT Search"}
                 </li>
-                <li class="mb-1">
+                <li class="mb-6 text-xl text-white">
                   <button onClick={handleSignOut} className="font-bold ">
                     Sign Out
                   </button>
@@ -154,20 +160,6 @@ const Header = () => {
               </ul>
             </div>
             <div class="mt-auto">
-              <div class="pt-6">
-                <a
-                  class="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl"
-                  href="#"
-                >
-                  Sign in
-                </a>
-                <a
-                  class="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl"
-                  href="#"
-                >
-                  Sign Up
-                </a>
-              </div>
               <p class="my-4 text-xs text-center text-gray-400">
                 <span>Copyright © 2021</span>
               </p>
