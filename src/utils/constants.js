@@ -24,3 +24,7 @@ export const API_OPTIONS = {
 };
 
 export const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
+
+export const FIREBASE_KEY = process.env.REACT_APP_FIREBASE_APIKEY;
+
+export const FIREBASE_APPID = process.env.REACT_APP_FIREBASE_APPID;

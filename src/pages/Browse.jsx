@@ -13,7 +13,7 @@ const Browse = () => {
 
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       {showGptSearch ? (
         <GPTSearch />
       ) : (
