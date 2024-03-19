@@ -30,12 +30,20 @@ const SignIn = () => {
     e.preventDefault();
 
     //validate from
-    const isError = validateCredentials(emailRef, passwordRef);
+    const isError = validateCredentials(
+      emailRef.current.value,
+      passwordRef.current.value
+    );
+    console.log(isError);
     setErrorMessage(isError);
     if (isError) return;
     setLoadingBtn(true);
 
-    const userCredential = await signInService(emailRef, passwordRef);
+    const userCredential = await signInService(
+      emailRef.current.value,
+      passwordRef.current.value
+    );
+    console.log(userCredential);
     let errorMessage = null;
     switch (userCredential?.error?.code) {
       case "auth/user-disabled":
@@ -82,6 +90,10 @@ const SignIn = () => {
           placeholder="Email"
           ref={emailRef}
         />
+        <p className="text-red-700 text-md font-bold">
+          {errorMessage?.emailPhone}
+        </p>
+
         <input
           type="password"
           name="password"
@@ -89,7 +101,9 @@ const SignIn = () => {
           placeholder="Password"
           ref={passwordRef}
         />
-        <p className="text-red-700 text-md font-bold">{errorMessage}</p>
+        <p className="text-red-700 text-md font-bold">
+          {errorMessage?.password}
+        </p>
         <button
           type="submit"
           className="p-4 my-8 bg-red-700 rounded-lg "
