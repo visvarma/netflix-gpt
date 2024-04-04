@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { API_OPTIONS } from "../utils/constants";
 import { addTrailerVideo } from "../store/slices/movieSlice";
+import { TMDB_OPTIONS } from "../utils/tmdb";
 
 const useMovieTrailer = (movieId) => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const useMovieTrailer = (movieId) => {
       "https://api.themoviedb.org/3/movie/" +
         movieId +
         "/videos?language=en-US",
-      API_OPTIONS
+      TMDB_OPTIONS
     );
     const json = await data.json();
     const filterData = json.results.filter((video) => video.type === "Trailer");

@@ -6,9 +6,21 @@ import useMovieTypes from "../hooks/useMovieTypes";
 import SecondaryContainer from "../components/SecondaryContainer/SecondaryContainer";
 import { useSelector } from "react-redux";
 import GPTSearch from "../components/GptSearch/GptSearch";
+import { MOVIES, TRENDINGS } from "../utils/tmdb";
 
 const Browse = () => {
-  useMovieTypes();
+  const { trendingAll, trendingTv, trendingMovies } = TRENDINGS;
+  const { nowPlaying, popular, topRated } = MOVIES;
+
+  useMovieTypes(trendingAll.endpoint, trendingAll.type, true);
+  useMovieTypes(trendingTv.endpoint, trendingTv.type, true);
+  useMovieTypes(trendingMovies.endpoint, trendingMovies.type, true);
+
+  useMovieTypes(nowPlaying.endpoint, nowPlaying.type, false);
+  useMovieTypes(topRated.endpoint, topRated.type, false);
+  useMovieTypes(popular.endpoint, popular.type, false);
+  useMovieTypes(popular.endpoint, "bollywood");
+
   const showGptSearch = useSelector((state) => state.gpt.showGptSearch);
 
   return (

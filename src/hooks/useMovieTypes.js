@@ -1,41 +1,43 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { API_OPTIONS } from "../utils/constants";
-import {
-  addNowPlayingMovies,
-  addPopularMovies,
-} from "../store/slices/movieSlice";
+import { TMDB_OPTIONS, TMDB_API_URL } from "../utils/tmdb.js";
+import { setMovie } from "../store/slices/movieSlice";
 
-const useMovieTypes = () => {
+const getMovieApiUrl = (
+  endpoint,
+  isTrending,
+  genreId = null,
+  originalLanguage = null
+) => {
+  let apiUrl = isTrending
+    ? `${TMDB_API_URL}/trending/${endpoint}?language=en-US`
+    : `${TMDB_API_URL}/movie/${endpoint}?language=en-US&page=1&adult=true`;
+
+  if (genreId) {
+    apiUrl += `&with_genres=${genreId}`;
+  }
+
+  if (originalLanguage) {
+    apiUrl += `&with_original_language=${originalLanguage}`;
+  }
+
+  return apiUrl;
+};
+
+const useMovieTypes = (endpoint, movieType, isTrending) => {
   const dispatch = useDispatch();
-  const popularMovies = useSelector((store) => store.movie.popularMovies);
-  const nowPlayingMovies = useSelector((store) => store.movie.nowPlayingMovies);
 
-  const getNowPlayingMovie = async () => {
-    const response = await fetch(
-      "https://api.themoviedb.org/3/movie/now_playing?page=1",
-      API_OPTIONS
-    );
+  const apiUrl = getMovieApiUrl(endpoint, isTrending);
+  const getMovieData = async () => {
+    const response = await fetch(apiUrl, TMDB_OPTIONS);
     const data = await response.json();
+    console.log(movieType);
     console.log(data.results);
-    dispatch(addNowPlayingMovies(data.results));
-  };
-
-  const getPopularMovies = async () => {
-    const data = await fetch(
-      "https://api.themoviedb.org/3/movie/popular?page=1",
-      API_OPTIONS
-    );
-    const json = await data.json();
-    dispatch(addPopularMovies(json.results));
+    dispatch(setMovie({ movieType, movieData: data.results }));
   };
 
   useEffect(() => {
-    !nowPlayingMovies && getNowPlayingMovie();
-  }, []);
-
-  useEffect(() => {
-    !popularMovies && getPopularMovies();
+    getMovieData();
   }, []);
 };
 

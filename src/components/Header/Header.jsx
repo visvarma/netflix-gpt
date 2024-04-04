@@ -23,23 +23,23 @@ const Header = () => {
       });
   };
   // useEffect(() => {
-  //   // const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //   //   if (user) {
-  //   //     const { uid, email, displayName, photoURL } = user;
-  //   //     dispatch(
-  //   //       addUser({
-  //   //         uid: uid,
-  //   //         email: email,
-  //   //         displayName: displayName,
-  //   //         photoURL: photoURL,
-  //   //       })
-  //   //     );
-  //   //     navigate("/browse");
-  //   //   } else {
-  //   //     dispatch(removeuser());
-  //   //     navigate("/");
-  //   //   }
-  //   // });
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       const { uid, email, displayName, photoURL } = user;
+  //       dispatch(
+  //         addUser({
+  //           uid: uid,
+  //           email: email,
+  //           displayName: displayName,
+  //           photoURL: photoURL,
+  //         })
+  //       );
+  //       navigate("/browse");
+  //     } else {
+  //       dispatch(removeuser());
+  //       navigate("/");
+  //     }
+  //   });
 
   //   // Unsiubscribe when component unmounts
   //   return () => unsubscribe();
@@ -74,10 +74,30 @@ const Header = () => {
               </select>
             )}
             <button
-              className="py-2 px-4  my-2 bg-red-600 text-white rounded-lg"
+              className="py-2 px-4  my-2 font-bold text-white rounded-lg flex gap-2"
               onClick={handleGptSearchClick}
             >
-              {showGptSearch ? "Homepage" : "GPT Search"}
+              {showGptSearch ? (
+                "Homepage"
+              ) : (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                    />
+                  </svg>
+                  GPT Search
+                </>
+              )}
             </button>
             <img
               className="hidden md:block w-12 h-12"
@@ -121,7 +141,7 @@ const Header = () => {
       )}
 
       {openMenu && (
-        <div class="md:hidden navbar-menu relative z-50 bg-black opacity-95">
+        <div class="md:hidden navbar-menu relative z-50 bg-black opacity-95 transition-all delay-150 duration-300">
           <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
           <nav class="fixed top-0 right-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-black border-r overflow-y-auto">
             <div class="flex items-center mb-8 justify-between">
