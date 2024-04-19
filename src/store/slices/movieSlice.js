@@ -31,12 +31,12 @@ const movieSlice = createSlice({
       const { movieType, movieData } = action.payload;
       state[movieType] = movieData;
     },
-    addTrailerVideo: (state, action) => {
-      state.trailerVideo = action.payload;
+    addMovieVideos: (state, action) => {
+      state.movieVideos = action.payload;
     },
   },
 });
 
-export const { setMovie, addTrailerVideo } = movieSlice.actions;
+export const { setMovie, addMovieVideos } = movieSlice.actions;
 
 export default movieSlice.reducer;

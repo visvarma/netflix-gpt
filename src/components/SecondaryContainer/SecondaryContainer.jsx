@@ -2,54 +2,28 @@ import React from "react";
 import MovieList from "../MovieList/MovieList";
 import { useSelector } from "react-redux";
 import MovieSlider from "../MovieSlides";
+import MovieSliderShimmer from "../ShimmerUI/MovieSliderShimmer";
 
-const SecondaryContainer = () => {
+const SecondaryContainer = ({ movieCategories }) => {
   const movies = useSelector((store) => store.movie);
+
   return (
     movies && (
       <div className="bg-black">
-        <div className=" mt-0  xl:-mt-36 lg:-mt-8 pl-4 md:pl-12 relative z-20">
-          {/* <MovieList
-            moviesType="now playing"
-            movies={movies.nowPlayingMovies}
-          /> */}
-          <MovieSlider
-            type={null}
-            heading="Now Playing"
-            data={movies.nowPlaying}
-          />
-          <MovieSlider
-            type={null}
-            heading="Trending"
-            data={movies.trendingAll}
-          />
-          <MovieSlider
-            type={null}
-            heading="Now Playing Bollywood Movies"
-            data={movies.bollywood}
-          />
-
-          <MovieSlider
-            type={null}
-            heading="Top Rated Movies"
-            data={movies.topRated}
-          />
-          <MovieSlider
-            type={null}
-            heading="Trending Movies"
-            data={movies.trendingMovies}
-          />
-          <MovieSlider
-            type={null}
-            heading="Popular Movies"
-            data={movies.popular}
-          />
-          {/* <MovieList
-            moviesType="popular Movies"
-            movies={movies.popularMovies}
-          />
-          <MovieList moviesType="Trending" movies={movies.nowPlayingMovies} />
-          <MovieList moviesType="Highest Rated" movies={movies.popularMovies} /> */}
+        <div className="mt-0 md:-mt-11 lg:-mt-12 xl:-mt-40  pl-4 sm:pl-6 md:pl-20 relative z-20">
+          {movieCategories.map((movieCategory) => (
+            <>
+              {movies[movieCategory.key] ? (
+                <MovieSlider
+                  type={movieCategory.type}
+                  heading={movieCategory.heading}
+                  data={movies[movieCategory.key]}
+                />
+              ) : (
+                <MovieSliderShimmer dimention={"w-28 md:w-36"} />
+              )}
+            </>
+          ))}
         </div>
       </div>
     )

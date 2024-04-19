@@ -47,6 +47,10 @@ export const MOVIES = {
     endpoint: "popular",
     type: "popular",
   },
+  upcoming: {
+    endpoint: "upcoming",
+    type: "upcoming",
+  },
   topRated: {
     endpoint: "top_rated",
     type: "topRated",
@@ -55,6 +59,12 @@ export const MOVIES = {
     endpoint: "movie",
     type: "topRated",
   },
+};
+
+export const convertRunTime = (timeInMinutes) => {
+  const hours = Math.floor(timeInMinutes / 60);
+  const minutes = timeInMinutes % 60;
+  return { hours, minutes };
 };
 
 export const GENRES = [
@@ -135,3 +145,16 @@ export const GENRES = [
     name: "Western",
   },
 ];
+
+export const getGenresName = (genreIds) => {
+  const genreNames = [];
+
+  genreIds.forEach((id) => {
+    const genre = GENRES.find((genre) => genre.id === id);
+    if (genre) {
+      genreNames.push(genre.name);
+    }
+  });
+
+  return genreNames;
+};

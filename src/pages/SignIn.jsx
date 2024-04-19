@@ -34,7 +34,6 @@ const SignIn = () => {
       emailRef.current.value,
       passwordRef.current.value
     );
-    console.log(isError);
     setErrorMessage(isError);
     if (isError) return;
     setLoadingBtn(true);
@@ -43,7 +42,6 @@ const SignIn = () => {
       emailRef.current.value,
       passwordRef.current.value
     );
-    console.log(userCredential);
     let errorMessage = null;
     switch (userCredential?.error?.code) {
       case "auth/user-disabled":
@@ -62,12 +60,11 @@ const SignIn = () => {
     setLoadingBtn(false);
 
     if (userCredential?.error) return;
-    console.log("sign in done!!!!!!!!!!!!!!!");
     navigate("/browse");
   };
 
   return (
-    <div>
+    <div className="h-screen w-screen">
       <div className="absolute">
         <img
           className="h-screen w-screen  object-cover"
@@ -76,7 +73,7 @@ const SignIn = () => {
         />
       </div>
 
-      <form className="w-3/4 sm:w-6/12 md:w-1/3 lg:w-1/4 px-12 py-8 bg-black absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-white rounded-lg bg-opacity-80 flex flex-col ">
+      <form className="w-3/4 sm:w-3/5 md:w-3/6 lg:w-2/6 xl:w-1/4 px-12 py-8 bg-black absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-white rounded-lg bg-opacity-80 flex flex-col ">
         <h1 className="font-bold text-xl text-white px-2 py-4">Sign In</h1>
         {authError && (
           <p className="p-3 bg-[#e87c03] text-white text-xs rounded-md mb-5">

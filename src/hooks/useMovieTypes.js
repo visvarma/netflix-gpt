@@ -6,12 +6,15 @@ import { setMovie } from "../store/slices/movieSlice";
 const getMovieApiUrl = (
   endpoint,
   isTrending,
-  genreId = null,
-  originalLanguage = null
+  discoverMovies = null,
+  originalLanguage = null,
+  genreId = null
 ) => {
   let apiUrl = isTrending
-    ? `${TMDB_API_URL}/trending/${endpoint}?language=en-US`
-    : `${TMDB_API_URL}/movie/${endpoint}?language=en-US&page=1&adult=true`;
+    ? `${TMDB_API_URL}/trending/${endpoint}?language=en-US&region=IN`
+    : discoverMovies
+    ? `${TMDB_API_URL}/discover/movie?language=en-US&region=IN&page=1&adult=true`
+    : `${TMDB_API_URL}/movie/${endpoint}?language=en-US&region=IN&page=1&adult=true`;
 
   if (genreId) {
     apiUrl += `&with_genres=${genreId}`;
@@ -21,19 +24,38 @@ const getMovieApiUrl = (
     apiUrl += `&with_original_language=${originalLanguage}`;
   }
 
+  console.log(apiUrl);
   return apiUrl;
 };
 
-const useMovieTypes = (endpoint, movieType, isTrending) => {
+const useMovieTypes = (
+  endpoint,
+  movieType,
+  isTrending,
+  discoverMovies,
+  originalLanguage,
+  genreId
+) => {
   const dispatch = useDispatch();
 
-  const apiUrl = getMovieApiUrl(endpoint, isTrending);
+  const apiUrl = getMovieApiUrl(
+    endpoint,
+    isTrending,
+    discoverMovies,
+    originalLanguage,
+    genreId
+  );
   const getMovieData = async () => {
     const response = await fetch(apiUrl, TMDB_OPTIONS);
     const data = await response.json();
     console.log(movieType);
     console.log(data.results);
-    dispatch(setMovie({ movieType, movieData: data.results }));
+    dispatch(
+      setMovie({
+        movieType,
+        movieData: isTrending ? data.results.slice(0, 10) : data.results,
+      })
+    );
   };
 
   useEffect(() => {
